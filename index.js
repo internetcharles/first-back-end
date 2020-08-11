@@ -19,7 +19,7 @@ function getWeather(lat, lon) {
     const forecastArray = data.map((weatherItem => {    
         return {
         forecast: weatherItem.weather.description,
-        time: new Date(weatherItem.weather.ts * 1000),
+        time: new Date(weatherItem.ts * 1000),
     };
 }))
 
