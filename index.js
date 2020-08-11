@@ -16,7 +16,10 @@ app.use(express.static('public'));
 async function getWeather(lat, lon) {
     const response = await request.get(`https://api.weatherbit.io/v2.0/forecast/daily?&lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API_KEY}`)
 
-    const weatherData = response.body.data;
+    let weatherData = response.body.data;
+
+    weatherData = weatherData.slice(0, 9)
+
 
     const forecastArray = weatherData.map((weatherItem => {    
         return {
@@ -31,9 +34,9 @@ async function getWeather(lat, lon) {
 async function getHikes(lat, lon) {
     const response = await request.get(`https://www.hikingproject.com/data/get-trails?lat=${lat}&lon=${lon}&maxDistance=200&key=${process.env.HIKING_API_KEY}`)
 
-    const trailData = response.body.trails;
+    let trailData = response.body.trails;
 
-
+    trailData = trailData.slice(0, 9)
 
     const trailArray = trailData.map((trail => {
         
@@ -59,7 +62,9 @@ async function getReview(lat, lon) {
     const response = await request.get(`https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lon}`)
     .set('Authorization', 'Bearer 2Nu7g-AYANIpmT-HcwoeZz7oW89a_bHZRy9FnxlcqWaJ_NRFWiC3lw18EPlK-LeiWYQ5jH2MfNFVRDlGD6mIDR58WCC0REz5Ta_TiLu0UfTwm92YG9Z5ddhEIMEyX3Yx');
 
-    const reviewData = response.body.businesses;
+    let reviewData = response.body.businesses;
+
+    reviewData = reviewData.slice(0, 9)
 
     const forecastArray = reviewData.map((review => {    
         return {
