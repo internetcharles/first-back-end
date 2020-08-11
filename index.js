@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const { geoData } = require('./data/geo.js');
 const { weatherData } = require('./data/weather.js');
+const request = require('superagent')
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -28,8 +29,10 @@ function getWeather(lat, lon) {
 }
 
 
-function getLatLong(cityName) {
-    const city = geoData[0];
+async function getLatLong(cityName) {
+    const response = await request.get(`https://us1.locationiq.com/v1/search.php?key=${process.env.GEOCODE_API_KEY}&q=${cityName}&format=json`)
+
+    const city = response.body[0];
 
     return {
         formatted_query: city.display_name,
@@ -38,10 +41,10 @@ function getLatLong(cityName) {
     }
 }
 
-app.get('/location', (req, res) => {
+app.get('/location', async(req, res) => {
     userInput = req.query.search;
 
-    const mungedData = getLatLong(userInput);
+    const mungedData = await getLatLong(userInput);
 
     res.json(mungedData);
   });
