@@ -60,7 +60,7 @@ async function getHikes(lat, lon) {
 
 async function getReview(lat, lon) {
     const response = await request.get(`https://api.yelp.com/v3/businesses/search?latitude=${lat}&longitude=${lon}`)
-    .set('Authorization', 'Bearer 2Nu7g-AYANIpmT-HcwoeZz7oW89a_bHZRy9FnxlcqWaJ_NRFWiC3lw18EPlK-LeiWYQ5jH2MfNFVRDlGD6mIDR58WCC0REz5Ta_TiLu0UfTwm92YG9Z5ddhEIMEyX3Yx');
+    .set('Authorization', `Bearer ${process.env.YELP_API_KEY}`);
 
     let reviewData = response.body.businesses;
 
